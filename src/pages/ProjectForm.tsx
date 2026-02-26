@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { createProject, getProject, updateProject } from '../api/projects';
 import './Projects.css';
 
 function ProjectForm() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const isEdit = Boolean(id);
 
   const [name, setName] = useState('');
@@ -14,7 +14,7 @@ function ProjectForm() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (isEdit) {
+    if (isEdit && id) {
       let cancelled = false;
       setLoading(true);
       setError('');
@@ -26,7 +26,7 @@ function ProjectForm() {
           }
         })
         .catch((err) => {
-          if (!cancelled) setError(err.message || 'Error al cargar proyecto');
+          if (!cancelled) setError(err instanceof Error ? err.message : 'Error al cargar proyecto');
         })
         .finally(() => {
           if (!cancelled) setLoading(false);
@@ -35,12 +35,13 @@ function ProjectForm() {
     }
   }, [id, isEdit]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!id && isEdit) return;
     setError('');
     setLoading(true);
     try {
-      if (isEdit) {
+      if (isEdit && id) {
         await updateProject(id, name, description);
         navigate(`/projects/${id}`);
       } else {
@@ -48,7 +49,7 @@ function ProjectForm() {
         navigate(`/projects/${project.id}`);
       }
     } catch (err) {
-      setError(err.message || 'Error al guardar');
+      setError(err instanceof Error ? err.message : 'Error al guardar');
       setLoading(false);
     }
   };
@@ -58,7 +59,7 @@ function ProjectForm() {
       <header className="project-header">
         <h1>{isEdit ? 'Editar proyecto' : 'Nuevo proyecto'}</h1>
         <div className="project-header-actions">
-          <Link to={isEdit ? `/projects/${id}` : '/projects'} className="btn-secondary">
+          <Link to={isEdit && id ? `/projects/${id}` : '/projects'} className="btn-secondary">
             Volver
           </Link>
         </div>
@@ -92,7 +93,7 @@ function ProjectForm() {
               <button type="submit" className="btn-primary" disabled={loading}>
                 {loading ? 'Guardando...' : isEdit ? 'Guardar cambios' : 'Crear proyecto'}
               </button>
-              <Link to={isEdit ? `/projects/${id}` : '/projects'} className="btn-secondary">
+              <Link to={isEdit && id ? `/projects/${id}` : '/projects'} className="btn-secondary">
                 Cancelar
               </Link>
             </div>

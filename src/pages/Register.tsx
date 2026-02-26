@@ -1,25 +1,26 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { login, saveAuth } from '../api/auth';
+import { register, saveAuth } from '../api/auth';
 import './Auth.css';
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [nombre, setNombre] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      const data = await login(email, password);
+      const data = await register(email, password, nombre);
       saveAuth(data);
       navigate('/home');
     } catch (err) {
-      setError(err.message || 'Error al iniciar sesión');
+      setError(err instanceof Error ? err.message : 'Error al registrarse');
     } finally {
       setLoading(false);
     }
@@ -28,8 +29,18 @@ function Login() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <h1>Iniciar sesión</h1>
+        <h1>Registro</h1>
         <form onSubmit={handleSubmit}>
+          <label>
+            Nombre
+            <input
+              type="text"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              required
+              autoComplete="name"
+            />
+          </label>
           <label>
             Email
             <input
@@ -47,20 +58,20 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              autoComplete="current-password"
+              autoComplete="new-password"
             />
           </label>
           {error && <p className="auth-error">{error}</p>}
           <button type="submit" disabled={loading}>
-            {loading ? 'Entrando...' : 'Entrar'}
+            {loading ? 'Registrando...' : 'Registrarse'}
           </button>
         </form>
         <p className="auth-link">
-          ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
+          ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
         </p>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Register;

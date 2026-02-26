@@ -330,6 +330,123 @@
   padding: 0 4px;
 }
 
+.detail-list-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.detail-list-header .detail-list-title {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.detail-list-actions {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.detail-list-btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: transparent;
+  color: #555;
+}
+
+.detail-list-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #333;
+}
+
+.detail-list-btn-edit:hover {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.detail-list-btn-delete:hover {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.detail-list-new {
+  flex: 0 0 280px;
+  min-height: 80px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.04);
+  border: 2px dashed rgba(0, 0, 0, 0.15);
+}
+
+.detail-list-add-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: #555;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.detail-list-add-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #333;
+}
+
+.detail-list-create-form,
+.detail-list-edit-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-list-create-form input,
+.detail-list-edit-form input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.detail-list-create-form input:focus,
+.detail-list-edit-form input:focus {
+  outline: none;
+  border-color: #1976d2;
+}
+
+.detail-list-form-error {
+  font-size: 0.8rem;
+  color: #c62828;
+  margin: 0;
+}
+
+.detail-list-edit-actions,
+.detail-list-create-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.detail-list-edit-actions button,
+.detail-list-create-actions button {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
 .detail-card {
   background: white;
   border-radius: 6px;
@@ -338,13 +455,17 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
-.detail-card h4 {
+.detail-card-content {
+  margin-bottom: 0.5rem;
+}
+
+.detail-card-content h4 {
   margin: 0 0 0.35rem 0;
   font-size: 0.9rem;
   color: #333;
 }
 
-.detail-card p {
+.detail-card-content p {
   margin: 0;
   font-size: 0.8rem;
   color: #666;
@@ -355,6 +476,206 @@
   margin-top: 0.5rem;
   font-size: 0.75rem;
   color: #888;
+}
+
+.detail-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #eee;
+}
+
+.detail-card-btn {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.7rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #f0f0f0;
+  color: #555;
+}
+
+.detail-card-btn:hover {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.detail-card-btn-edit:hover {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.detail-card-btn-move:hover {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.detail-card-btn-delete:hover {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.detail-card-move-wrap {
+  position: relative;
+}
+
+.detail-card-move-dropdown {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 0.25rem;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+  z-index: 10;
+  min-width: 180px;
+}
+
+.detail-card-move-label {
+  margin: 0 0 0.35rem 0;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.detail-card-move-empty {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.detail-card-move-option {
+  display: block;
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  text-align: left;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.detail-card-move-option:hover {
+  background: #f0f0f0;
+}
+
+.detail-card-move-cancel {
+  margin-top: 0.35rem;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.8rem;
+  background: #eee;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.detail-list-add-card-btn {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: #555;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.detail-list-add-card-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  color: #333;
+}
+
+.detail-card-create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.detail-card-create-form input,
+.detail-card-create-form textarea,
+.detail-card-create-form select {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.detail-card-create-form input:focus,
+.detail-card-create-form textarea:focus,
+.detail-card-create-form select:focus {
+  outline: none;
+  border-color: #1976d2;
+}
+
+.detail-card-create-form textarea {
+  resize: vertical;
+  min-height: 50px;
+}
+
+.detail-card-create-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.detail-card-create-actions button {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-box-form {
+  max-width: 420px;
+}
+
+.modal-box-form form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.modal-box-form form input,
+.modal-box-form form textarea,
+.modal-box-form form select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.modal-box-form form input:focus,
+.modal-box-form form textarea:focus,
+.modal-box-form form select:focus {
+  outline: none;
+  border-color: #1976d2;
+}
+
+.modal-box-form form textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+.modal-box-form .modal-actions {
+  margin-top: 1rem;
 }
 
 .detail-members {

@@ -8,13 +8,14 @@ import ProjectDetail from './pages/ProjectDetail';
 import { getToken } from './api/auth';
 import './App.css';
 
-/**
- * Ruta protegida: si no hay token, redirige a /login.
- */
-function ProtectedRoute({ children }) {
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
+function ProtectedRoute({ children }: ProtectedRouteProps) {
   const token = getToken();
   if (!token) return <Navigate to="/login" replace />;
-  return children;
+  return <>{children}</>;
 }
 
 function App() {

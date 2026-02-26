@@ -2,10 +2,15 @@ import { useNavigate, Link } from 'react-router-dom';
 import { logout } from '../api/auth';
 import './Home.css';
 
+interface AuthUser {
+  email: string;
+  role: string;
+}
+
 function Home() {
   const navigate = useNavigate();
   const userJson = localStorage.getItem('authUser');
-  const user = userJson ? JSON.parse(userJson) : null;
+  const user: AuthUser | null = userJson ? JSON.parse(userJson) : null;
 
   const handleLogout = () => {
     logout();

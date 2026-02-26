@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, MouseEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../api/auth';
 import { listProjects, deleteProject } from '../api/projects';
+import type { Project } from '../types';
 import './Projects.css';
 
 function ProjectList() {
   const navigate = useNavigate();
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [deleteId, setDeleteId] = useState(null);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const loadProjects = async () => {
     setError('');
@@ -18,10 +19,9 @@ function ProjectList() {
       const data = await listProjects();
       setProjects(Array.isArray(data) ? data : []);
     } catch (err) {
-      setError(err.message || 'Error al cargar proyectos');
-      if (err.message && err.message.includes('sesión')) {
-        navigate('/login');
-      }
+      const msg = err instanceof Error ? err.message : 'Error al cargar proyectos';
+      setError(msg);
+      if (msg.includes('sesión')) navigate('/login');
     } finally {
       setLoading(false);
     }
@@ -31,21 +31,21 @@ function ProjectList() {
     loadProjects();
   }, []);
 
-  const handleDelete = (e, id) => {
+  const handleDelete = (e: MouseEvent, id: number) => {
     e.preventDefault();
     e.stopPropagation();
     setDeleteId(id);
   };
 
   const confirmDelete = async () => {
-    if (!deleteId) return;
+    if (deleteId == null) return;
     setError('');
     try {
-      await deleteProject(deleteId);
+      await deleteProject(String(deleteId));
       setProjects((prev) => prev.filter((p) => p.id !== deleteId));
       setDeleteId(null);
     } catch (err) {
-      setError(err.message || 'Error al eliminar');
+      setError(err instanceof Error ? err.message : 'Error al eliminar');
     }
   };
 
@@ -99,7 +99,7 @@ function ProjectList() {
         )}
       </main>
 
-      {deleteId && (
+      {deleteId != null && (
         <div className="modal-overlay" onClick={cancelDelete}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
             <h3>¿Eliminar este proyecto?</h3>
